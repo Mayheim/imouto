@@ -26,3 +26,34 @@ There is a pre-parsed match list available at
 2. Make an announcement when the sleep or timer is up
 3. Respond to user queries with upcoming match info
 
+
+#### HTML Markup and regex
+
+The API returns match info in html like so
+
+```html
+<tr class='d2mtrow eventSoon' href='http://www.joindota.com/en/matches/109633' title='joinDOTA League Asia Season 1 - Lower-Bracket Final' rel='tooltip' id='109633'><td alt='1397138400' class='push-tt jd_date'>23m</td><td><img src='http://flags.cdn.gamesports.net/ph.gif' title='Philippines' width='14px' height='9px'>  Exe.TnC</td><td>v</td><td><img title='Indonesia' src='http://flags.cdn.gamesports.net/id.gif' width='14px' height='9px'>  RRQ</td></tr>
+```
+
+Use this regex to parse it
+
+```
+<tr class='d2mtrow eventSoon' href='(?P<jdurl>.*?)' title='(?P<title>.*?)' rel='tooltip' id='\d*'><td alt='(?P<timestamp>\d*)' class='push-tt jd_date'>.*?</td><td><img .*?>\s?(?P<team1>.*?)</td><td>v</td><td><img .*?>\s?(?P<team2>.*?)</td></tr>
+```
+
+The regex returns named groups:
+
+* *jdurl* - the URL e.g. http://www.joindota.com/en/matches/109633
+* *title* - the Match Title eg. joinDOTA League Asia Season 1 - Lower-Bracket Final
+* *timestamp* - the Match scheduled time as a unix timestamp e.g. 1397138400
+* *team1* and *team2* - Team names e.g. Exe.TnC and RRQ
+
+Use this code to parse it
+
+```python
+# markup contains the HTML markup for one match
+ matchinfo = re.findall(r"(?i)<tr class='d2mtrow eventSoon' href='(?P<jdurl>.*?)' title='(?P<title>.*?)' rel='tooltip' id='\d*'><td alt='(?P<timestamp>\d*)' class='push-tt jd_date'>.*?</td><td><img .*?>\s?(?P<team1>.*?)</td><td>v</td><td><img .*?>\s?(?P<team2>.*?)</td></tr>", markup)
+
+# now matchinfo contains the parsed data
+# e.g. matchinfo['title'] gives you the parsed title
+```
