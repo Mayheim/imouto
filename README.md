@@ -14,7 +14,7 @@ There is a pre-parsed match list available at
 
 1. Download the match list from the API
   1. The API returns a json formatted array that contains html markup, one item for every upcoming match. 
-  2. Python parses json easily. 
+  2. [Python parses json easily](https://gist.github.com/Gunio/1294675). 
 2. Parse the list using regex
   1. The HTML markup needs to be parsed with regex to obtain match info that can be processed by python.
   2. see below for samples and the regex pattern to use
