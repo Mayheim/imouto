@@ -51,8 +51,11 @@ The regex returns named groups:
 Use this code to parse it
 
 ```python
+# jdregex contains the regex
+ jdregex = r"(?i)<tr class='d2mtrow eventSoon' href='(?P<jdurl>.*?)' title='(?P<title>.*?)' rel='tooltip' id='\d*'><td alt='(?P<timestamp>\d*)' class='push-tt jd_date'>.*?</td><td><img .*?>\s?(?P<team1>.*?)</td><td>v</td><td><img .*?>\s?(?P<team2>.*?)</td></tr>"
+ 
 # markup contains the HTML markup for one match
- matchinfo = re.findall(r"(?i)<tr class='d2mtrow eventSoon' href='(?P<jdurl>.*?)' title='(?P<title>.*?)' rel='tooltip' id='\d*'><td alt='(?P<timestamp>\d*)' class='push-tt jd_date'>.*?</td><td><img .*?>\s?(?P<team1>.*?)</td><td>v</td><td><img .*?>\s?(?P<team2>.*?)</td></tr>", markup)
+ matchinfo = re.findall(jdregex, markup)
 
 # now matchinfo contains the parsed data
 # e.g. matchinfo['title'] gives you the parsed title
